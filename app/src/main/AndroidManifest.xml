@@ -13,15 +13,19 @@
         android:theme="@style/Theme.MyVacationApp"
         tools:targetApi="31">
         <activity
-            android:name=".VacationsListActivity"
-            android:label="Vacations List"
-            android:parentActivityName=".MainActivity"
+            android:name=".ExcursionsListActivity"
+            android:label="Excursions List"
+            android:parentActivityName=".VacationsListActivity"
             android:exported="false" />
-
+        <activity
+            android:name=".VacationsListActivity"
+            android:exported="false"
+            android:label="Vacations List"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"
-            android:label="Main Screen"
-            android:exported="true">
+            android:exported="true"
+            android:label="Main Screen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
