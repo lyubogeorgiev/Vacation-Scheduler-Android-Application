@@ -7,4 +7,146 @@
     android:layout_height="match_parent"
     tools:context=".VacationDetailsActivity">
 
+    <Button
+        android:id="@+id/btn_saveVacation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Save Vacation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_vacationTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:hint="Vacation Title"
+        android:textAlignment="textStart"
+        android:gravity="center"
+        app:layout_constraintEnd_toStartOf="@id/et_vacationTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_saveVacation" />
+
+    <EditText
+        android:id="@+id/et_vacationTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:ems="10"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_vacationTitle"
+        app:layout_constraintTop_toTopOf="@+id/tv_vacationTitle" />
+
+    <TextView
+        android:id="@+id/tv_hotelName"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:hint="Hotel Name"
+        android:textAlignment="textStart"
+        app:layout_constraintEnd_toStartOf="@id/et_hotelName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_vacationTitle" />
+
+    <EditText
+        android:id="@+id/et_hotelName"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:ems="10"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_hotelName"
+        app:layout_constraintTop_toTopOf="@+id/tv_hotelName" />
+
+    <TextView
+        android:id="@+id/tv_startDate"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:hint="Start Date"
+        android:textAlignment="textStart"
+        app:layout_constraintEnd_toStartOf="@id/et_startDate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_hotelName" />
+
+    <EditText
+        android:id="@+id/et_startDate"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:ems="10"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_startDate"
+        app:layout_constraintTop_toTopOf="@+id/tv_startDate" />
+
+    <TextView
+        android:id="@+id/tv_endDate"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:hint="End Date"
+        android:textAlignment="textStart"
+        app:layout_constraintEnd_toStartOf="@id/et_endDate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_startDate" />
+
+    <EditText
+        android:id="@+id/et_endDate"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:ems="10"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_endDate"
+        app:layout_constraintTop_toTopOf="@+id/tv_endDate" />
+
+    <Button
+        android:id="@+id/btn_addExcrusion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Add Excursion"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_endDate" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_excursionList"
+        android:layout_width="409dp"
+        android:layout_height="385dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_excursionsListTitle" />
+
+    <TextView
+        android:id="@+id/tv_excursionsListTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Excursion List"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_addExcrusion" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
