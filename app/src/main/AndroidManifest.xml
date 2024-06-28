@@ -13,10 +13,15 @@
         android:theme="@style/Theme.MyVacationApp"
         tools:targetApi="31">
         <activity
-            android:name=".VacationDetailsActivity"
-            android:label="Vacation Details"
-            android:parentActivityName=".VacationsListActivity"
+            android:name=".ExcursionDetailsActivity"
+            android:label="Excursion Details"
+            android:parentActivityName=".ExcursionsListActivity"
             android:exported="false" />
+        <activity
+            android:name=".VacationDetailsActivity"
+            android:exported="false"
+            android:label="Vacation Details"
+            android:parentActivityName=".VacationsListActivity" />
         <activity
             android:name=".ExcursionsListActivity"
             android:exported="false"
