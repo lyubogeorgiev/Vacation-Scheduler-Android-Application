@@ -3,16 +3,18 @@ package com.georgievl.myvacationapp.entities;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Date;
+
 @Entity(tableName = "vacations")
 public class Vacation {
     @PrimaryKey(autoGenerate = true)
     private int vacationId;
     private String vacationTitle;
     private String accommodationPlace;
-    private String startDate;
-    private String endDate;
+    private Date startDate;
+    private Date endDate;
 
-    public Vacation(int vacationId, String vacationTitle, String accommodationPlace, String startDate, String endDate) {
+    public Vacation(int vacationId, String vacationTitle, String accommodationPlace, Date startDate, Date endDate) {
         this.vacationId = vacationId;
         this.vacationTitle = vacationTitle;
         this.accommodationPlace = accommodationPlace;
@@ -40,19 +42,19 @@ public class Vacation {
         this.accommodationPlace = accommodationPlace;
     }
 
-    public String getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public String getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 }

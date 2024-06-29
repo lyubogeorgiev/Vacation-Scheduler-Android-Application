@@ -4,6 +4,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Date;
+
 @Entity(tableName = "excursions")
 public class Excursion {
     @PrimaryKey(autoGenerate = true)
@@ -11,11 +13,11 @@ public class Excursion {
 
     private String excursionTitle;
 
-    private String excursionDate;
+    private Date excursionDate;
 
     private int vacationId;
 
-    public Excursion(int excursionId, String excursionTitle, String excursionDate, int vacationId) {
+    public Excursion(int excursionId, String excursionTitle, Date excursionDate, int vacationId) {
         this.excursionId = excursionId;
         this.excursionTitle = excursionTitle;
         this.excursionDate = excursionDate;
@@ -34,11 +36,11 @@ public class Excursion {
         this.excursionTitle = excursionTitle;
     }
 
-    public String getExcursionDate() {
+    public Date getExcursionDate() {
         return excursionDate;
     }
 
-    public void setExcursionDate(String excursionDate) {
+    public void setExcursionDate(Date excursionDate) {
         this.excursionDate = excursionDate;
     }
 
