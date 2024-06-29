@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,6 +33,7 @@ public class VacationDetailsActivity extends AppCompatActivity {
     final Calendar startCalendar=Calendar.getInstance();
     Button btnStartDate;
     Button btnEndDate;
+    Button btnDeleteVacation;
     Date startingDate;
     Date endingDate;
     EditText etVacationTitle;
@@ -159,9 +161,12 @@ public class VacationDetailsActivity extends AppCompatActivity {
         etHotelName = findViewById(R.id.et_hotelName);
 
         Bundle extras = getIntent().getExtras();
-        assert extras != null;
 
-        vacationId = extras.getInt("id");
+        if (extras != null) {
+
+            vacationId = extras.getInt("id");
+        }
+
 
         db = VacationDatabaseBuilder.getDatabase(getApplicationContext());
 
@@ -180,6 +185,22 @@ public class VacationDetailsActivity extends AppCompatActivity {
             btnStartDate.setText(sdf.format(startingDate.getTime()));
             btnEndDate.setText(sdf.format(endingDate.getTime()));
         }
+
+        btnDeleteVacation = findViewById(R.id.btn_deleteVacation);
+
+        btnDeleteVacation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (vacationId != -1) {
+                    db.vacationDao().delete(currentVacation);
+
+                    Intent intent = new Intent(VacationDetailsActivity.this, VacationsListActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "No Vacation Selected", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
         btnSaveVacation.setOnClickListener(new View.OnClickListener() {
             @Override
