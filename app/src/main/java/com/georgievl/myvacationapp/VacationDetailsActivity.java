@@ -170,6 +170,7 @@ public class VacationDetailsActivity extends AppCompatActivity {
                 db.vacationDao().insert(vacation);
 
                 Intent intent = new Intent(VacationDetailsActivity.this, VacationsListActivity.class);
+                startActivity(intent);
             }
         });
     }
