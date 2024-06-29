@@ -6,12 +6,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.room.Room;
+
+import com.georgievl.myvacationapp.database.VacationDatabaseBuilder;
+import com.georgievl.myvacationapp.entities.Vacation;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,6 +34,13 @@ public class VacationDetailsActivity extends AppCompatActivity {
     Button btnEndDate;
     Date startingDate;
     Date endingDate;
+    EditText etVacationTitle;
+    EditText etHotelName;
+    int vacationId = -1;
+
+    VacationDatabaseBuilder db;
+
+    Button btnSaveVacation;
 
 
     @Override
@@ -140,5 +152,25 @@ public class VacationDetailsActivity extends AppCompatActivity {
             }
 
         };
+
+        btnSaveVacation = findViewById(R.id.btn_saveVacation);
+        etVacationTitle = findViewById(R.id.et_vacationTitle);
+        etHotelName = findViewById(R.id.et_hotelName);
+
+        db = VacationDatabaseBuilder.getDatabase(getApplicationContext());
+
+        btnSaveVacation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String vacationTitle = etVacationTitle.getText().toString();
+                String hotelName = etHotelName.getText().toString();
+
+                Vacation vacation = new Vacation(0, vacationTitle, hotelName, startingDate, endingDate);
+
+                db.vacationDao().insert(vacation);
+
+                Intent intent = new Intent(VacationDetailsActivity.this, VacationsListActivity.class);
+            }
+        });
     }
 }
