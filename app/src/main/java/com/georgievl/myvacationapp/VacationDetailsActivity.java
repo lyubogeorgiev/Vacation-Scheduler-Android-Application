@@ -1,6 +1,9 @@
 package com.georgievl.myvacationapp;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +12,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class VacationDetailsActivity extends AppCompatActivity {
+
+    Button btnListExcursions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +24,16 @@ public class VacationDetailsActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+        btnListExcursions = findViewById(R.id.btn_listExcursions);
+
+        btnListExcursions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(VacationDetailsActivity.this, ExcursionsListActivity.class);
+                startActivity(intent);
+            }
         });
     }
 }

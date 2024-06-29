@@ -26,7 +26,7 @@
             android:name=".ExcursionsListActivity"
             android:exported="false"
             android:label="Excursions List"
-            android:parentActivityName=".VacationsListActivity" />
+            android:parentActivityName=".VacationDetailsActivity" />
         <activity
             android:name=".VacationsListActivity"
             android:exported="false"
