@@ -25,7 +25,6 @@ public class VacationDetailsActivity extends AppCompatActivity {
     DatePickerDialog.OnDateSetListener startDate;
     DatePickerDialog.OnDateSetListener endDate;
     final Calendar startCalendar=Calendar.getInstance();
-    final Calendar endCalendar=Calendar.getInstance();
     Button btnStartDate;
     Button btnEndDate;
     Date startingDate;

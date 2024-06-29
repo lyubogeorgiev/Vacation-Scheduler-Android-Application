@@ -73,17 +73,20 @@
         android:layout_marginTop="8dp"
         android:gravity="center"
         android:text="Excursion Date"
-        app:layout_constraintEnd_toStartOf="@id/et_ExcursionDate"
+        app:layout_constraintEnd_toStartOf="@id/btn_excursionDate"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_excursionTitle" />
 
-    <EditText
-        android:id="@+id/et_ExcursionDate"
+
+
+    <Button
+        android:id="@+id/btn_excursionDate"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:ems="10"
-        android:inputType="text"
+        style="?android:spinnerStyle"
+        android:textColor="@color/black"
+        android:text="Excursion Date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_excursionDate"
-        app:layout_constraintTop_toTopOf="@+id/tv_excursionDate" />
+        app:layout_constraintTop_toTopOf="@+id/tv_excursionDate"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
