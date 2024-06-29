@@ -24,7 +24,9 @@ public abstract class VacationDatabaseBuilder extends RoomDatabase{
         if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                     VacationDatabaseBuilder.class, "VacationDB.db")
-                    .allowMainThreadQueries().build();
+                    .allowMainThreadQueries()
+                    .fallbackToDestructiveMigration()
+                    .build();
         }
 
         return INSTANCE;

@@ -37,6 +37,7 @@ public class VacationDetailsActivity extends AppCompatActivity {
     EditText etVacationTitle;
     EditText etHotelName;
     int vacationId = -1;
+    Vacation currentVacation;
 
     VacationDatabaseBuilder db;
 
@@ -157,7 +158,28 @@ public class VacationDetailsActivity extends AppCompatActivity {
         etVacationTitle = findViewById(R.id.et_vacationTitle);
         etHotelName = findViewById(R.id.et_hotelName);
 
+        Bundle extras = getIntent().getExtras();
+        assert extras != null;
+
+        vacationId = extras.getInt("id");
+
         db = VacationDatabaseBuilder.getDatabase(getApplicationContext());
+
+        if (vacationId != -1) {
+            currentVacation = db.vacationDao().getVacation(vacationId);
+            etVacationTitle.setText(currentVacation.getVacationTitle());
+            etHotelName.setText(currentVacation.getAccommodationPlace());
+            startingDate = currentVacation.getStartDate();
+            endingDate = currentVacation.getEndDate();
+
+//            String myFormat = "MM/dd/yy"; //In which you need put here
+//            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+//            startingDate = startCalendar.getTime();
+
+            btnStartDate.setText(sdf.format(startingDate.getTime()));
+            btnEndDate.setText(sdf.format(endingDate.getTime()));
+        }
 
         btnSaveVacation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,9 +187,21 @@ public class VacationDetailsActivity extends AppCompatActivity {
                 String vacationTitle = etVacationTitle.getText().toString();
                 String hotelName = etHotelName.getText().toString();
 
-                Vacation vacation = new Vacation(0, vacationTitle, hotelName, startingDate, endingDate);
+                if (vacationId != -1) {
+                    //edit vacation
+                    currentVacation.setVacationTitle(vacationTitle);
+                    currentVacation.setAccommodationPlace(hotelName);
+                    currentVacation.setStartDate(startingDate);
+                    currentVacation.setEndDate(endingDate);
 
-                db.vacationDao().insert(vacation);
+                    db.vacationDao().update(currentVacation);
+                } else {
+                    //insert new vacation
+                    Vacation vacation = new Vacation(0, vacationTitle, hotelName, startingDate, endingDate);
+
+                    db.vacationDao().insert(vacation);
+                }
+
 
                 Intent intent = new Intent(VacationDetailsActivity.this, VacationsListActivity.class);
                 startActivity(intent);

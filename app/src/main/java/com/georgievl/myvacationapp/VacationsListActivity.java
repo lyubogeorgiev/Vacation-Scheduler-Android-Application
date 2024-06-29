@@ -10,10 +10,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.georgievl.myvacationapp.database.VacationDatabaseBuilder;
+import com.georgievl.myvacationapp.entities.Vacation;
+
+import java.util.List;
 
 public class VacationsListActivity extends AppCompatActivity {
 
     Button btnAddVacation;
+    RecyclerView recyclerView;
+    VacationDatabaseBuilder db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,5 +44,16 @@ public class VacationsListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        recyclerView = findViewById(R.id.rv_vacationsList);
+        db = VacationDatabaseBuilder.getDatabase(getApplicationContext());
+
+        List<Vacation> allVacations = db.vacationDao().getAllVacations();
+
+        final VacationAdapter vacationAdapter = new VacationAdapter(this);
+        recyclerView.setAdapter(vacationAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        vacationAdapter.setVacations(allVacations);
     }
 }
