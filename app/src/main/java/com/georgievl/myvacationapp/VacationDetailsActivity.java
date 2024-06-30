@@ -336,7 +336,8 @@ public class VacationDetailsActivity extends AppCompatActivity {
             }
             date=myDate.getTime();
             Intent intent=new Intent(VacationDetailsActivity.this,MyReceiver.class);
-            intent.putExtra("key",currentVacation.getVacationTitle() + "starts today!");
+            intent.putExtra("key",currentVacation.getVacationTitle() + " starts today!");
+            intent.putExtra("title", "Vacation starting today notification!");
             PendingIntent sender= PendingIntent.getBroadcast(VacationDetailsActivity.this,++MainActivity.numAlert,intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
             AlarmManager alarmManager=(AlarmManager)getSystemService(Context.ALARM_SERVICE);
             alarmManager.set(AlarmManager.RTC_WAKEUP, date, sender);
@@ -356,7 +357,8 @@ public class VacationDetailsActivity extends AppCompatActivity {
             }
             date=myDate.getTime();
             Intent intent=new Intent(VacationDetailsActivity.this,MyReceiver.class);
-            intent.putExtra("key",currentVacation.getVacationTitle() + "Ends today!" );
+            intent.putExtra("title", "Vacation ending notification");
+            intent.putExtra("key",currentVacation.getVacationTitle() + " Ends today!" );
             PendingIntent sender= PendingIntent.getBroadcast(VacationDetailsActivity.this,++MainActivity.numAlert,intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
             AlarmManager alarmManager=(AlarmManager)getSystemService(Context.ALARM_SERVICE);
             alarmManager.set(AlarmManager.RTC_WAKEUP, date, sender);

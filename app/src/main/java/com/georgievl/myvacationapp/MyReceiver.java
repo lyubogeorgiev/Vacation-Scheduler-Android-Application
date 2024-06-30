@@ -23,7 +23,7 @@ public class MyReceiver extends BroadcastReceiver {
         Notification n = new NotificationCompat.Builder(context, channel_id)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentText(intent.getStringExtra("key"))
-                .setContentTitle("Test of Notification with an id of :" + Integer.toString(notificationID)).build();
+                .setContentTitle(intent.getStringExtra("title")).build();
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(notificationID++, n);

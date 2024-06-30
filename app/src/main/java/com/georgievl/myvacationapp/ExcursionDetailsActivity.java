@@ -211,6 +211,7 @@ public class ExcursionDetailsActivity extends AppCompatActivity {
             long date=myDate.getTime();
             Intent intent=new Intent(ExcursionDetailsActivity.this, MyReceiver.class);
             intent.putExtra("key",currentExcursion.getExcursionTitle() + " is today!");
+            intent.putExtra("title", "Excursion today notification!");
             PendingIntent sender= PendingIntent.getBroadcast(ExcursionDetailsActivity.this,++MainActivity.numAlert,intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
             AlarmManager alarmManager=(AlarmManager)getSystemService(Context.ALARM_SERVICE);
             alarmManager.set(AlarmManager.RTC_WAKEUP, date, sender);
