@@ -49,6 +49,7 @@ public class ExcursionsListActivity extends AppCompatActivity {
                 } else {
                     Intent intent = new Intent(ExcursionsListActivity.this, ExcursionDetailsActivity.class);
                     intent.putExtra("vacationId", currentVacationId);
+                    intent.putExtra("id", -1);
                     startActivity(intent);
                 }
 

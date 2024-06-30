@@ -64,10 +64,15 @@ public class ExcursionDetailsActivity extends AppCompatActivity {
 //        tvAssociatedVacationName.setText(currentVacation.getVacationTitle());
 
 
-
+        vacationId = getIntent().getIntExtra("vacationId", -1);
 
         String myFormat = "MM/dd/yy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+//
+//        Date vacationStartDate = db.vacationDao().getVacation(vacationId).getStartDate();
+//        Date vacationEndDate = db.vacationDao().getVacation(vacationId).getEndDate();
+
+//        btnExcursionDate.setText(sdf.format(vacationStartDate));
 
         btnExcursionDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,7 +86,11 @@ public class ExcursionDetailsActivity extends AppCompatActivity {
                 DatePickerDialog dpd = new DatePickerDialog(ExcursionDetailsActivity.this, startDate,startCalendar.get(Calendar.YEAR),
                         startCalendar.get(Calendar.MONTH), startCalendar.get(Calendar.DAY_OF_MONTH));
 
-//                dpd.getDatePicker().setMinDate(startingDate.getTime() + 86400000);
+
+
+//                dpd.getDatePicker().setMinDate(vacationStartDate.getTime() + 86000000);
+//                dpd.getDatePicker().setMaxDate(vacationEndDate.getTime() - 86000000);
+
                 dpd.show();
             }
         });
@@ -115,7 +124,7 @@ public class ExcursionDetailsActivity extends AppCompatActivity {
             excursionId = extras.getInt("id");
         }
 
-        vacationId = getIntent().getIntExtra("vacationId", -1);
+
 
         if (excursionId != -1) {
             currentExcursion = db.excursionDao().getExcursion(excursionId);
