@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import com.georgievl.myvacationapp.database.VacationDatabaseBuilder;
@@ -43,6 +45,7 @@ public class VacationDetailsActivity extends AppCompatActivity {
     int vacationId = -1;
     Vacation currentVacation;
 
+    RecyclerView recyclerView;
     VacationDatabaseBuilder db;
 
     Button btnSaveVacation;
@@ -254,5 +257,18 @@ public class VacationDetailsActivity extends AppCompatActivity {
 
             }
         });
+
+        recyclerView = findViewById(R.id.rv_excursionList);
+
+        if (vacationId != -1) {
+            List<Excursion> allExcursions = db.excursionDao().getAssociatedExcursions(vacationId);
+
+            final ExcursionAdapter excursionAdapter = new ExcursionAdapter(this);
+            recyclerView.setAdapter(excursionAdapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+            excursionAdapter.setExcursions(allExcursions);
+        }
+
     }
 }
