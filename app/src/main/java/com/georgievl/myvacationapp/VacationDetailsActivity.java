@@ -57,25 +57,19 @@ public class VacationDetailsActivity extends AppCompatActivity {
             return insets;
         });
 
-        btnListExcursions = findViewById(R.id.btn_listExcursions);
-
-        btnListExcursions.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(VacationDetailsActivity.this, ExcursionsListActivity.class);
-                startActivity(intent);
-            }
-        });
-
         btnStartDate = findViewById(R.id.btn_startDate);
         btnEndDate = findViewById(R.id.btn_endDate);
 
         String myFormat = "MM/dd/yy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         String currentDate=sdf.format(new Date());
+        String nextDayDate = sdf.format(new Date(System.currentTimeMillis() + 86400000));
 
-//        btnStartDate.setText(currentDate);
-//        btnEndDate.setText(currentDate);
+        btnStartDate.setText(currentDate);
+        btnEndDate.setText(nextDayDate);
+
+        startingDate = new Date();
+        endingDate = new Date(System.currentTimeMillis() + 86400000);
 
         btnStartDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -208,24 +202,46 @@ public class VacationDetailsActivity extends AppCompatActivity {
                 String vacationTitle = etVacationTitle.getText().toString();
                 String hotelName = etHotelName.getText().toString();
 
-                if (vacationId != -1) {
-                    //edit vacation
-                    currentVacation.setVacationTitle(vacationTitle);
-                    currentVacation.setAccommodationPlace(hotelName);
-                    currentVacation.setStartDate(startingDate);
-                    currentVacation.setEndDate(endingDate);
-
-                    db.vacationDao().update(currentVacation);
+                if (vacationTitle.isBlank() || hotelName.isBlank() ||
+                        (startingDate == endingDate)) {
+                    Toast.makeText(getApplicationContext(), "Blank Fields", Toast.LENGTH_LONG).show();
                 } else {
-                    //insert new vacation
-                    Vacation vacation = new Vacation(0, vacationTitle, hotelName, startingDate, endingDate);
+                    if (vacationId != -1) {
+                        //edit vacation
+                        currentVacation.setVacationTitle(vacationTitle);
+                        currentVacation.setAccommodationPlace(hotelName);
+                        currentVacation.setStartDate(startingDate);
+                        currentVacation.setEndDate(endingDate);
 
-                    db.vacationDao().insert(vacation);
+                        db.vacationDao().update(currentVacation);
+                    } else {
+                        //insert new vacation
+                        Vacation vacation = new Vacation(0, vacationTitle, hotelName, startingDate, endingDate);
+
+                        db.vacationDao().insert(vacation);
+                    }
+
+
+                    Intent intent = new Intent(VacationDetailsActivity.this, VacationsListActivity.class);
+                    startActivity(intent);
                 }
 
+            }
+        });
 
-                Intent intent = new Intent(VacationDetailsActivity.this, VacationsListActivity.class);
-                startActivity(intent);
+        btnListExcursions = findViewById(R.id.btn_listExcursions);
+
+        btnListExcursions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (vacationId == -1) {
+                    Toast.makeText(getApplicationContext(), "No Vacation Selected", Toast.LENGTH_LONG).show();
+                } else {
+                    Intent intent = new Intent(VacationDetailsActivity.this, ExcursionsListActivity.class);
+                    intent.putExtra("vacationId", vacationId);
+                    startActivity(intent);
+                }
+
             }
         });
     }

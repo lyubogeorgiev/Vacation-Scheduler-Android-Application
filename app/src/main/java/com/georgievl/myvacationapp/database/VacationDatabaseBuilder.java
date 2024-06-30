@@ -12,7 +12,7 @@ import com.georgievl.myvacationapp.dao.VacationDao;
 import com.georgievl.myvacationapp.entities.Excursion;
 import com.georgievl.myvacationapp.entities.Vacation;
 
-@Database(entities = {Vacation.class, Excursion.class}, version = 2)
+@Database(entities = {Vacation.class, Excursion.class}, version = 1)
 @TypeConverters(DateConverter.class)
 public abstract class VacationDatabaseBuilder extends RoomDatabase{
 

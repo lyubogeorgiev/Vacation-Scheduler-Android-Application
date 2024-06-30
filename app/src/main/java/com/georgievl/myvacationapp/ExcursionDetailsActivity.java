@@ -1,16 +1,21 @@
 package com.georgievl.myvacationapp;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.georgievl.myvacationapp.database.VacationDatabaseBuilder;
+import com.georgievl.myvacationapp.entities.Excursion;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,7 +28,12 @@ public class ExcursionDetailsActivity extends AppCompatActivity {
     DatePickerDialog.OnDateSetListener startDate;
     final Calendar startCalendar=Calendar.getInstance();
     Button btnExcursionDate;
+    Button btnSaveExcrusion;
     Date excursionDate;
+    int vacationId;
+    EditText etExcursionTitle;
+    String excursionTitle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +47,8 @@ public class ExcursionDetailsActivity extends AppCompatActivity {
         });
 
         btnExcursionDate = findViewById(R.id.btn_excursionDate);
+        etExcursionTitle = findViewById(R.id.et_excursionTitle);
+
 
         String myFormat = "MM/dd/yy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
@@ -79,5 +91,23 @@ public class ExcursionDetailsActivity extends AppCompatActivity {
             }
 
         };
+
+        btnSaveExcrusion = findViewById(R.id.btn_saveExcursion);
+
+        VacationDatabaseBuilder db = VacationDatabaseBuilder.getDatabase(getApplicationContext());
+
+        vacationId = getIntent().getIntExtra("vacationId", -1);
+        btnSaveExcrusion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                excursionTitle = etExcursionTitle.getText().toString();
+                Excursion currentExcursion = new Excursion(0,excursionTitle, excursionDate, vacationId);
+
+                db.excursionDao().insert(currentExcursion);
+
+                Intent intent = new Intent(ExcursionDetailsActivity.this, ExcursionsListActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
