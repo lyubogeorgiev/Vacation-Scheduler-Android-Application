@@ -2,6 +2,7 @@ package com.georgievl.myvacationapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -16,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.georgievl.myvacationapp.database.VacationDatabaseBuilder;
 import com.georgievl.myvacationapp.entities.Excursion;
-import com.georgievl.myvacationapp.entities.Vacation;
 
 import java.util.List;
 
@@ -25,6 +25,7 @@ public class ExcursionsListActivity extends AppCompatActivity {
     Button btnAddExcursion;
     RecyclerView recyclerView;
     VacationDatabaseBuilder db;
+    int currentVacationId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,7 @@ public class ExcursionsListActivity extends AppCompatActivity {
             return insets;
         });
 
-        int currentVacationId = getIntent().getIntExtra("vacationId", -1);
+        currentVacationId = getIntent().getIntExtra("vacationId", -1);
 
         btnAddExcursion = findViewById(R.id.btn_addExcursion);
 
@@ -66,5 +67,18 @@ public class ExcursionsListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         excursionAdapter.setExcursions(allExcursions);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == android.R.id.home) {
+            Intent intent = new Intent(ExcursionsListActivity.this, VacationDetailsActivity.class);
+            intent.putExtra("id", currentVacationId);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -11,11 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.room.Room;
-import androidx.room.RoomDatabase;
-
-import com.georgievl.myvacationapp.database.VacationDatabaseBuilder;
-import com.georgievl.myvacationapp.entities.Vacation;
 
 public class MainActivity extends AppCompatActivity {
 

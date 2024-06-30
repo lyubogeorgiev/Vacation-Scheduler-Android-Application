@@ -23,14 +23,12 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.georgievl.myvacationapp.database.VacationDatabaseBuilder;
 import com.georgievl.myvacationapp.entities.Excursion;
-import com.georgievl.myvacationapp.entities.Vacation;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 public class ExcursionDetailsActivity extends AppCompatActivity {
 
@@ -65,14 +63,9 @@ public class ExcursionDetailsActivity extends AppCompatActivity {
 
         VacationDatabaseBuilder db = VacationDatabaseBuilder.getDatabase(getApplicationContext());
 
-//        Vacation currentVacation = db.vacationDao().getVacation(vacationId);
-//
-//        tvAssociatedVacationName.setText(currentVacation.getVacationTitle());
-
-
         vacationId = getIntent().getIntExtra("vacationId", -1);
 
-        String myFormat = "MM/dd/yy"; //In which you need put here
+        String myFormat = "MM/dd/yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 //
         Date vacationStartDate = db.vacationDao().getVacation(vacationId).getStartDate();
@@ -137,11 +130,6 @@ public class ExcursionDetailsActivity extends AppCompatActivity {
             etExcursionTitle.setText(currentExcursion.getExcursionTitle());
             excursionDate = currentExcursion.getExcursionDate();
 
-//            String myFormat = "MM/dd/yy"; //In which you need put here
-//            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-
-//            startingDate = startCalendar.getTime();
-
             btnExcursionDate.setText(sdf.format(excursionDate.getTime()));
         }
 
@@ -158,6 +146,10 @@ public class ExcursionDetailsActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(getApplicationContext(), "No Vacation Selected", Toast.LENGTH_LONG).show();
                 }
+
+                Intent intent = new Intent(ExcursionDetailsActivity.this, ExcursionsListActivity.class);
+                intent.putExtra("vacationId", vacationId);
+                startActivity(intent);
             }
         });
 
@@ -182,19 +174,28 @@ public class ExcursionDetailsActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
 
+                Intent intent = new Intent(ExcursionDetailsActivity.this, ExcursionsListActivity.class);
+                intent.putExtra("vacationId", vacationId);
+                startActivity(intent);
             }
         });
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_excursion, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == android.R.id.home){
+            Intent intent = new Intent(ExcursionDetailsActivity.this, ExcursionsListActivity.class);
+            intent.putExtra("vacationId", vacationId);
+            startActivity(intent);
+            return true;
+        }
 
         if (item.getItemId() == R.id.excursionNotification) {
 
@@ -208,7 +209,7 @@ public class ExcursionDetailsActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             long date=myDate.getTime();
-            Intent intent=new Intent(ExcursionDetailsActivity.this,MyReceiver.class);
+            Intent intent=new Intent(ExcursionDetailsActivity.this, MyReceiver.class);
             intent.putExtra("key",currentExcursion.getExcursionTitle() + " is today!");
             PendingIntent sender= PendingIntent.getBroadcast(ExcursionDetailsActivity.this,++MainActivity.numAlert,intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
             AlarmManager alarmManager=(AlarmManager)getSystemService(Context.ALARM_SERVICE);
