@@ -19,6 +19,8 @@ import com.georgievl.myvacationapp.entities.Vacation;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static int numAlert;
+
     Button btnVacationsList;
 
     @Override

@@ -1,6 +1,9 @@
 package com.georgievl.myvacationapp;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -48,6 +51,7 @@ public class VacationDetailsActivity extends AppCompatActivity {
     EditText etHotelName;
     int vacationId = -1;
     Vacation currentVacation;
+    Long date;
 
     RecyclerView recyclerView;
     VacationDatabaseBuilder db;
@@ -316,6 +320,46 @@ public class VacationDetailsActivity extends AppCompatActivity {
             Intent shareIntent = Intent.createChooser(sendIntent, null);
             startActivity(shareIntent);
 
+            return true;
+        }
+
+        if (item.getItemId() == R.id.notifications) {
+
+            String dateFromScreen=btnStartDate.getText().toString();
+            String myFormat = "MM/dd/yy";
+            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+            Date myDate=null;
+            try {
+                myDate=sdf.parse(dateFromScreen);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            date=myDate.getTime();
+            Intent intent=new Intent(VacationDetailsActivity.this,MyReceiver.class);
+            intent.putExtra("key",currentVacation.getVacationTitle() + "starts today!");
+            PendingIntent sender= PendingIntent.getBroadcast(VacationDetailsActivity.this,++MainActivity.numAlert,intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
+            AlarmManager alarmManager=(AlarmManager)getSystemService(Context.ALARM_SERVICE);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, date, sender);
+            return true;
+        }
+
+        if (item.getItemId() == R.id.notifications2) {
+
+            String dateFromScreen=btnEndDate.getText().toString();
+            String myFormat = "MM/dd/yy";
+            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+            Date myDate=null;
+            try {
+                myDate=sdf.parse(dateFromScreen);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            date=myDate.getTime();
+            Intent intent=new Intent(VacationDetailsActivity.this,MyReceiver.class);
+            intent.putExtra("key",currentVacation.getVacationTitle() + "Ends today!" );
+            PendingIntent sender= PendingIntent.getBroadcast(VacationDetailsActivity.this,++MainActivity.numAlert,intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
+            AlarmManager alarmManager=(AlarmManager)getSystemService(Context.ALARM_SERVICE);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, date, sender);
             return true;
         }
         return super.onOptionsItemSelected(item);
