@@ -27,4 +27,7 @@ public interface ExcursionDao {
 
     @Query("SELECT * FROM excursions WHERE vacationId = :vac")
     List<Excursion> getAssociatedExcursions(int vac);
+
+    @Query("SELECT * FROM excursions WHERE excursionId = :id")
+    Excursion getExcursion(int id);
 }

@@ -11,12 +11,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.georgievl.myvacationapp.database.VacationDatabaseBuilder;
+import com.georgievl.myvacationapp.entities.Excursion;
 import com.georgievl.myvacationapp.entities.Vacation;
+
+import java.util.List;
 
 public class ExcursionsListActivity extends AppCompatActivity {
 
     Button btnAddExcursion;
+    RecyclerView recyclerView;
+    VacationDatabaseBuilder db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,5 +54,16 @@ public class ExcursionsListActivity extends AppCompatActivity {
 
             }
         });
+
+        recyclerView = findViewById(R.id.rv_excursionList);
+        db = VacationDatabaseBuilder.getDatabase(getApplicationContext());
+
+        List<Excursion> allExcursions = db.excursionDao().getAssociatedExcursions(currentVacationId);
+
+        final ExcursionAdapter excursionAdapter = new ExcursionAdapter(this);
+        recyclerView.setAdapter(excursionAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        excursionAdapter.setExcursions(allExcursions);
     }
 }

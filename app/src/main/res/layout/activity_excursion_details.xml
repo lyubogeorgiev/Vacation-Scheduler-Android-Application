@@ -89,4 +89,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_excursionDate"
         app:layout_constraintTop_toTopOf="@+id/tv_excursionDate"/>
+
+    <Button
+        android:id="@+id/btn_deleteExcursion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="Delete"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btn_saveExcursion"
+        app:layout_constraintTop_toTopOf="@+id/btn_saveExcursion" />
 </androidx.constraintlayout.widget.ConstraintLayout>

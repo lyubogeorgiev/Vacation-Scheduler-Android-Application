@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +18,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.georgievl.myvacationapp.database.VacationDatabaseBuilder;
 import com.georgievl.myvacationapp.entities.Excursion;
+import com.georgievl.myvacationapp.entities.Vacation;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,10 +32,14 @@ public class ExcursionDetailsActivity extends AppCompatActivity {
     final Calendar startCalendar=Calendar.getInstance();
     Button btnExcursionDate;
     Button btnSaveExcrusion;
+    Button btnDeleteExcursion;
     Date excursionDate;
     int vacationId;
     EditText etExcursionTitle;
     String excursionTitle;
+    TextView tvAssociatedVacationName;
+    int excursionId = -1;
+    Excursion currentExcursion;
 
 
     @Override
@@ -48,6 +55,15 @@ public class ExcursionDetailsActivity extends AppCompatActivity {
 
         btnExcursionDate = findViewById(R.id.btn_excursionDate);
         etExcursionTitle = findViewById(R.id.et_excursionTitle);
+        tvAssociatedVacationName = findViewById(R.id.tv_associatedVacationName);
+
+        VacationDatabaseBuilder db = VacationDatabaseBuilder.getDatabase(getApplicationContext());
+
+//        Vacation currentVacation = db.vacationDao().getVacation(vacationId);
+//
+//        tvAssociatedVacationName.setText(currentVacation.getVacationTitle());
+
+
 
 
         String myFormat = "MM/dd/yy"; //In which you need put here
@@ -92,11 +108,49 @@ public class ExcursionDetailsActivity extends AppCompatActivity {
 
         };
 
-        btnSaveExcrusion = findViewById(R.id.btn_saveExcursion);
+        Bundle extras = getIntent().getExtras();
 
-        VacationDatabaseBuilder db = VacationDatabaseBuilder.getDatabase(getApplicationContext());
+        if (extras != null) {
+
+            excursionId = extras.getInt("id");
+        }
 
         vacationId = getIntent().getIntExtra("vacationId", -1);
+
+        if (excursionId != -1) {
+            currentExcursion = db.excursionDao().getExcursion(excursionId);
+            etExcursionTitle.setText(currentExcursion.getExcursionTitle());
+            excursionDate = currentExcursion.getExcursionDate();
+
+//            String myFormat = "MM/dd/yy"; //In which you need put here
+//            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+//            startingDate = startCalendar.getTime();
+
+            btnExcursionDate.setText(sdf.format(excursionDate.getTime()));
+        }
+
+        btnDeleteExcursion = findViewById(R.id.btn_deleteExcursion);
+
+        btnDeleteExcursion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (excursionId != -1) {
+                    db.excursionDao().delete(currentExcursion);
+
+                    Intent intent = new Intent(ExcursionDetailsActivity.this, ExcursionsListActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "No Vacation Selected", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+
+        btnSaveExcrusion = findViewById(R.id.btn_saveExcursion);
+
+
+
         btnSaveExcrusion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
