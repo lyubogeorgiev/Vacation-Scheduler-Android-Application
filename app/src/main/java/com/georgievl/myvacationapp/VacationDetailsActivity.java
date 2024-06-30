@@ -3,6 +3,8 @@ package com.georgievl.myvacationapp;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -28,6 +30,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class VacationDetailsActivity extends AppCompatActivity {
 
@@ -270,5 +274,50 @@ public class VacationDetailsActivity extends AppCompatActivity {
             excursionAdapter.setExcursions(allExcursions);
         }
 
+
+
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_vacation, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.sharings) {
+            String excursions = db.excursionDao().getAssociatedExcursions(currentVacation
+                            .getVacationId())
+                    .stream()
+                    .map(Excursion::getExcursionTitle)
+                    .collect(Collectors.joining(", " ));
+
+            String vacationDetails = String.format("Vacation name: %s, " +
+                    "Hotel name: %s, " +
+                    "Vacation start date: %s, " +
+                    "Vacation end date: %s, " +
+                    "Vacation excursions: %s.",
+                    currentVacation.getVacationTitle(),
+                    currentVacation.getAccommodationPlace(),
+                    currentVacation.getStartDate().toString(),
+                    currentVacation.getEndDate().toString(),
+                    excursions
+                    );
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, vacationDetails);
+            // (Optional) Here we're setting the title of the content
+            sendIntent.putExtra(Intent.EXTRA_TITLE, "Vacation shared");
+            sendIntent.setType("text/plain");
+
+            Intent shareIntent = Intent.createChooser(sendIntent, null);
+            startActivity(shareIntent);
+
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -3,5 +3,7 @@
     <string name="welcome_message">Welcome to the Vacation Planner Application for WGU course D308 Mobile Development</string>
     <string name="developer_info">Developed by Lyubomir Georgiev</string>
     <string name="vacations">Vacations</string>
+    <string name="sharing">Share</string>
+    <string name="notifications">Notifications</string>
 
 </resources>
