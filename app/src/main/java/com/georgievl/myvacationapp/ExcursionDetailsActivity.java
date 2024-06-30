@@ -1,8 +1,13 @@
 package com.georgievl.myvacationapp;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -25,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 public class ExcursionDetailsActivity extends AppCompatActivity {
 
@@ -178,5 +184,39 @@ public class ExcursionDetailsActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_excursion, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.excursionNotification) {
+
+            String dateFromScreen=btnExcursionDate.getText().toString();
+            String myFormat = "MM/dd/yy";
+            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+            Date myDate=null;
+            try {
+                myDate=sdf.parse(dateFromScreen);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            long date=myDate.getTime();
+            Intent intent=new Intent(ExcursionDetailsActivity.this,MyReceiver.class);
+            intent.putExtra("key",currentExcursion.getExcursionTitle() + " is today!");
+            PendingIntent sender= PendingIntent.getBroadcast(ExcursionDetailsActivity.this,++MainActivity.numAlert,intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
+            AlarmManager alarmManager=(AlarmManager)getSystemService(Context.ALARM_SERVICE);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, date, sender);
+            return true;
+        }
+
+
+        return super.onOptionsItemSelected(item);
     }
 }
