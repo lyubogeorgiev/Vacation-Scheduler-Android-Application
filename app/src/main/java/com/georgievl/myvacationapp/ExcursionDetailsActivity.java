@@ -69,10 +69,10 @@ public class ExcursionDetailsActivity extends AppCompatActivity {
         String myFormat = "MM/dd/yy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 //
-//        Date vacationStartDate = db.vacationDao().getVacation(vacationId).getStartDate();
-//        Date vacationEndDate = db.vacationDao().getVacation(vacationId).getEndDate();
+        Date vacationStartDate = db.vacationDao().getVacation(vacationId).getStartDate();
+        Date vacationEndDate = db.vacationDao().getVacation(vacationId).getEndDate();
 
-//        btnExcursionDate.setText(sdf.format(vacationStartDate));
+        btnExcursionDate.setText(sdf.format(vacationStartDate));
 
         btnExcursionDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,8 +88,8 @@ public class ExcursionDetailsActivity extends AppCompatActivity {
 
 
 
-//                dpd.getDatePicker().setMinDate(vacationStartDate.getTime() + 86000000);
-//                dpd.getDatePicker().setMaxDate(vacationEndDate.getTime() - 86000000);
+                dpd.getDatePicker().setMinDate(vacationStartDate.getTime());
+                dpd.getDatePicker().setMaxDate(vacationEndDate.getTime());
 
                 dpd.show();
             }
@@ -164,12 +164,18 @@ public class ExcursionDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 excursionTitle = etExcursionTitle.getText().toString();
-                Excursion currentExcursion = new Excursion(0,excursionTitle, excursionDate, vacationId);
 
-                db.excursionDao().insert(currentExcursion);
+                if (excursionTitle.isEmpty()){
+                    Toast.makeText(getApplicationContext(), "Empty title!", Toast.LENGTH_LONG).show();
+                } else {
+                    Excursion currentExcursion = new Excursion(0,excursionTitle, excursionDate, vacationId);
 
-                Intent intent = new Intent(ExcursionDetailsActivity.this, ExcursionsListActivity.class);
-                startActivity(intent);
+                    db.excursionDao().insert(currentExcursion);
+
+                    Intent intent = new Intent(ExcursionDetailsActivity.this, ExcursionsListActivity.class);
+                    startActivity(intent);
+                }
+
             }
         });
     }
