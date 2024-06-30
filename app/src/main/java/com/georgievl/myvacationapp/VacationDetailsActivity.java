@@ -17,12 +17,14 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.room.Room;
 
 import com.georgievl.myvacationapp.database.VacationDatabaseBuilder;
+import com.georgievl.myvacationapp.entities.Excursion;
 import com.georgievl.myvacationapp.entities.Vacation;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class VacationDetailsActivity extends AppCompatActivity {
@@ -186,10 +188,18 @@ public class VacationDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (vacationId != -1) {
-                    db.vacationDao().delete(currentVacation);
 
-                    Intent intent = new Intent(VacationDetailsActivity.this, VacationsListActivity.class);
-                    startActivity(intent);
+                    List<Excursion> associatedExcursions = db.excursionDao().getAssociatedExcursions(vacationId);
+
+                    if (!associatedExcursions.isEmpty()){
+                        Toast.makeText(getApplicationContext(), "Can't Delete! There are excursion associated!", Toast.LENGTH_LONG).show();
+                    } else {
+                        db.vacationDao().delete(currentVacation);
+
+                        Intent intent = new Intent(VacationDetailsActivity.this, VacationsListActivity.class);
+                        startActivity(intent);
+                    }
+
                 } else {
                     Toast.makeText(getApplicationContext(), "No Vacation Selected", Toast.LENGTH_LONG).show();
                 }
